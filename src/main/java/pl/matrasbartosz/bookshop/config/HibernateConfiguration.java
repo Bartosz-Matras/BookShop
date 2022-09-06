@@ -38,6 +38,8 @@ public class HibernateConfiguration {
     private String poolSize;
     @Value("${hibernate.currentSessionContextClass}")
     private String currentSessionContextClass;
+    @Value("${hibernate.myhbm2ddl.auto}")
+    private String hbm2ddlAuto;
 
 
     @Bean
@@ -72,6 +74,7 @@ public class HibernateConfiguration {
         hibernateProperties.setProperty("hibernate.dialect", dialect);
         hibernateProperties.setProperty("connection.pool_size", poolSize);
         hibernateProperties.setProperty("current_session_context_class" , currentSessionContextClass);
+        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", hbm2ddlAuto);
         return hibernateProperties;
     }
 
