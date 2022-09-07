@@ -1,6 +1,8 @@
 package pl.matrasbartosz.bookshop.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "author")
@@ -16,6 +18,16 @@ public class Author {
 
     @Column(name = "surname")
     private String surname;
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.PERSIST,
+                    CascadeType.REFRESH, CascadeType.MERGE})
+    @JoinTable(
+            name = "book_author",
+            joinColumns = @JoinColumn(name = "id_author"),
+            inverseJoinColumns = @JoinColumn(name = "id_book")
+    )
+    private List<Book> bookList;
 
     public Author() {
     }
@@ -53,6 +65,22 @@ public class Author {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public List<Book> getBookList() {
+        return bookList;
+    }
+
+    public void setBookList(List<Book> bookList) {
+        this.bookList = bookList;
+    }
+
+    public void addBook(Book book){
+        if(bookList == null){
+            bookList = new ArrayList<>();
+        }
+
+        bookList.add(book);
     }
 
     @Override
