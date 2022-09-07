@@ -1,6 +1,9 @@
 package pl.matrasbartosz.bookshop.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "user")
@@ -12,9 +15,14 @@ public class User {
     private Long idUser;
 
     @Column(name = "user_name")
+    @NotNull(message = "username is required")
+    @Size(min = 1, max = 30, message = "username is required")
     private String userName;
 
     @Column(name = "password")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$",
+            message = "Minimum eight characters, at least one letter, one number and one special character"
+    )
     private String password;
 
     @Column(name = "email")
@@ -27,6 +35,8 @@ public class User {
     private String surname;
 
     @Column(name = "phone_number")
+    @Pattern(regexp = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$",
+            message = "invalid phone number")
     private String phoneNumber;
 
     public User() {
